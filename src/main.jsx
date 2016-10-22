@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+const players = ['X', 'O'];
+
 function Square(props) {
     return (
         <button className="square" onClick={() => props.onClick()}>
@@ -44,7 +46,6 @@ class Game extends React.Component {
             history: [{
                 squares: Array(9).fill(null),
             }],
-            xIsNext: true,
             stepNumber: 0,
         };
     }
@@ -58,7 +59,7 @@ class Game extends React.Component {
         if (winner) {
             status = `Winner: ${winner}`
         } else {
-            status = `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
+            status = `Next player: ${players[this.state.stepNumber % players.length]}`;
         }
 
         const moves = history.map((step, move) => {
@@ -90,7 +91,7 @@ class Game extends React.Component {
         if (calculateWinner(squares) || squares[i]) {
             return;
         }
-        const who = this.state.xIsNext ? 'X' : 'O';
+        const who = players[this.state.stepNumber % players.length];
         squares[i] = who
         this.setState({
             history: history.concat([{
@@ -98,7 +99,6 @@ class Game extends React.Component {
                 who: who,
                 where: i,
             }]),
-            xIsNext: !this.state.xIsNext,
             stepNumber: history.length
         });
     }
@@ -106,7 +106,6 @@ class Game extends React.Component {
     jumpTo(step) {
         this.setState({
             stepNumber: step,
-            xIsNext: (step % 2) ? false : true,
         });
     }
 
