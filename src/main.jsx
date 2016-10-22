@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 const players = ['X', 'O'];
+const boardSize = 3;
 
 function Square(props) {
     const classes = ['square'];
@@ -16,9 +17,11 @@ function Square(props) {
 }
 
 class Board extends React.Component {
-    renderSquare(i) {
+    renderSquare(row, col) {
+        const i = row * boardSize + col;
         return (
             <Square value={this.props.squares[i]}
+                    key={col}
                     onClick={() => this.props.onClick(i)}
                     winningIndex={this.props.winningLine.indexOf(i)}
             />
@@ -26,25 +29,16 @@ class Board extends React.Component {
     }
 
     render() {
-        return (
-            <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-            </div>
-        );
+        let rows = [];
+        for (let row = 0; row < boardSize; row++) {
+            let cols = [];
+            for (let col = 0; col < boardSize; col++) {
+                cols.push(this.renderSquare(row, col));
+            }
+            rows.push(<div key={row} className="board-row">{cols}</div>)
+        }
+
+        return <div>{rows}</div>;
     }
 }
 
@@ -130,21 +124,60 @@ ReactDOM.render(
     document.getElementById('container')
 );
 
+function generateWinningLines() {
+    const winningLines = [];
+    var line;
+
+    for (let row = 0; row < boardSize; row++) {
+        line = [];
+        for (let col = 0; col < boardSize; col++) {
+            line.push(row * boardSize + col);
+        }
+        winningLines.push(line);
+    }
+
+    for (let col = 0; col < boardSize; col++) {
+        line = [];
+        for (let row = 0; row < boardSize; row++) {
+            line.push(row * boardSize + col);
+        }
+        winningLines.push(line);
+    }
+
+    line = [];
+    for (let row = 0; row < boardSize; row++) {
+        let col = row;
+        line.push(row * boardSize + col);
+    }
+    winningLines.push(line);
+
+    line = [];
+    for (let row = 0; row < boardSize; row++) {
+        let col = boardSize - row - 1;
+        line.push(row * boardSize + col);
+    }
+    winningLines.push(line);
+
+    return winningLines;
+}
+
+
 function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return {who: squares[a], line: lines[i]};
+    const winningLines = generateWinningLines();
+    console.log(winningLines);
+    for (let i = 0; i < winningLines.length; i++) {
+        const line = winningLines[i];
+        if (squares[line[0]]) {
+            let allSquaresInLineMatch = true;
+            for (let j = 1; j < boardSize; j++) {
+                if (squares[line[j]] !== squares[line[0]]) {
+                    allSquaresInLineMatch = false;
+                    break;
+                }
+            }
+            if (allSquaresInLineMatch) {
+                return {who: squares[line[0]], line: line};
+            }
         }
     }
     return null;
