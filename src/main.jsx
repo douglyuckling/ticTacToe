@@ -62,7 +62,7 @@ class Game extends React.Component {
         }
 
         const moves = history.map((step, move) => {
-            const desc = move === 0 ? 'Game start' : `Move #${move}`;
+            const desc = move === 0 ? 'Game start' : `${step.who} at (${step.where % 3 + 1}, ${Math.floor(step.where / 3 + 1)})`;
             return (
                 <li key={move}>
                     <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
@@ -90,10 +90,13 @@ class Game extends React.Component {
         if (calculateWinner(squares) || squares[i]) {
             return;
         }
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        const who = this.state.xIsNext ? 'X' : 'O';
+        squares[i] = who
         this.setState({
             history: history.concat([{
                 squares: squares,
+                who: who,
+                where: i,
             }]),
             xIsNext: !this.state.xIsNext,
             stepNumber: history.length
