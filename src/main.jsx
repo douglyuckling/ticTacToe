@@ -4,8 +4,12 @@ import ReactDOM from 'react-dom'
 const players = ['X', 'O'];
 
 function Square(props) {
+    const classes = ['square'];
+    if (props.winningIndex >= 0) {
+        classes.push('partOfWin');
+    }
     return (
-        <button className="square" onClick={() => props.onClick()}>
+        <button className={classes.join(' ')} onClick={() => props.onClick()}>
             {props.value}
         </button>
     );
@@ -13,7 +17,12 @@ function Square(props) {
 
 class Board extends React.Component {
     renderSquare(i) {
-        return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />;
+        return (
+            <Square value={this.props.squares[i]}
+                    onClick={() => this.props.onClick(i)}
+                    winningIndex={this.props.winningLine.indexOf(i)}
+            />
+        );
     }
 
     render() {
@@ -57,7 +66,7 @@ class Game extends React.Component {
 
         let status;
         if (winner) {
-            status = `Winner: ${winner}`
+            status = `Winner: ${winner.who}`
         } else {
             status = `Next player: ${players[this.state.stepNumber % players.length]}`;
         }
@@ -74,7 +83,10 @@ class Game extends React.Component {
         return (
             <div className="game">
                 <div className="game-board">
-                    <Board squares={current.squares} onClick={(i) => this.handleClick(i)} />
+                    <Board squares={current.squares}
+                           onClick={(i) => this.handleClick(i)}
+                           winningLine={winner ? winner.line : []}
+                    />
                 </div>
                 <div className="game-info">
                     <div>{status}</div>
@@ -132,7 +144,7 @@ function calculateWinner(squares) {
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+            return {who: squares[a], line: lines[i]};
         }
     }
     return null;
