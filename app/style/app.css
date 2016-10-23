@@ -4,7 +4,12 @@ body {
 }
 
 ol, ul {
-    padding-left: 30px;
+    padding-left: 2em;
+}
+
+.game-board {
+    font-size: 96px;
+    margin-right: 1em;
 }
 
 .board-row:after {
@@ -13,23 +18,19 @@ ol, ul {
     display: table;
 }
 
-.status {
-    margin-bottom: 10px;
-}
-
 .square {
-    background: #fff;
-    border: 1px solid #999;
-    float: left;
-    font-size: 24px;
+    border: 2px solid #999;
+    margin-right: -2px;
+    margin-top: -2px;
+    line-height: 1.4em;
+    height: 1.4em;
+    width: 1.4em;
+    font-size: inherit;
     font-weight: bold;
-    line-height: 34px;
-    height: 34px;
-    margin-right: -1px;
-    margin-top: -1px;
     padding: 0;
+    background: #fff;
+    float: left;
     text-align: center;
-    width: 34px;
 }
 
 .square:focus {
@@ -49,6 +50,11 @@ ol, ul {
     flex-direction: row;
 }
 
+.status {
+    margin-bottom: 10px;
+}
+
 .game-info {
+    font-size: 36px;
     margin-left: 20px;
 }
