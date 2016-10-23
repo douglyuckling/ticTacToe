@@ -7,9 +7,21 @@ ol, ul {
     padding-left: 2em;
 }
 
-.game-board {
-    font-size: 96px;
+.gameplay-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-right: 1em;
+    flex-shrink: 0;
+}
+
+.game-board {
+    margin-bottom: 2em;
+
+    border: 2px solid #999;
+    border-radius: 2em;
+
+    padding: 1em;
 }
 
 .board-row:after {
@@ -18,7 +30,8 @@ ol, ul {
     display: table;
 }
 
-.square {
+.board-square {
+    font-size: 96px;
     box-sizing: content-box;
     border: 2px solid #999;
     margin-right: -2px;
@@ -26,28 +39,54 @@ ol, ul {
     line-height: 1.4em;
     height: 1.4em;
     width: 1.4em;
-    font-size: inherit;
     font-weight: bold;
     padding: 0;
     background: #fff;
     float: left;
-    text-align: center;
 }
 
-.board-row:first-of-type .square {
+.board-row:first-of-type .board-square {
     border-top: none;
 }
 
-.board-row:last-of-type .square {
+.board-row:last-of-type .board-square {
     border-bottom: none;
 }
 
-.square:first-of-type {
+.board-square:first-of-type {
     border-left: none;
 }
 
-.square:last-of-type {
+.board-square:last-of-type {
     border-right: none;
+}
+
+.square {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gamepiece {
+    font-size: 72px;
+    box-sizing: border-box;
+    border: 2px solid #999;
+    border-radius: 0.25em;
+    line-height: 1.4em;
+    height: 1.4em;
+    width: 1.4em;
+    font-weight: bold;
+    padding: 0;
+    background: #ddd;
+    text-align: center;
+
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    cursor: default;
 }
 
 .square:focus {
@@ -71,7 +110,29 @@ ol, ul {
     margin-bottom: 10px;
 }
 
+.gamepiece-tray {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    max-width: 40em;
+    align-self: stretch;
+}
+
+.gamepiece-tray .gamepiece {
+    margin: 0.125em;
+}
+
+.gamepiece-tray .gamepiece:not(.draggable) {
+    opacity: 0.5;
+    transition: opacity 0.5s;
+}
+
+.gamepiece-tray .gamepiece.isDragging {
+    opacity: 0;
+}
+
 .game-info {
     font-size: 36px;
     margin-left: 20px;
+    flex-basis: 16em;
 }

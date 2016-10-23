@@ -1,5 +1,10 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
+import { DragDropContext } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import Board from './Board'
+import Gamepiece from './Gamepiece'
+import GamepieceTray from './GamepieceTray'
 
 const players = ['X', 'O'];
 const boardSize = 3
@@ -19,12 +24,14 @@ class Game extends React.Component {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = this.calculateWinner(current.squares);
+        var nextPlayer = this.getNextPlayer(this.state.stepNumber);
 
         let status;
         if (winner) {
-            status = `Winner: ${winner.who}`
+            status = `Winner: ${winner.who}`;
+            nextPlayer = null;
         } else {
-            status = `Next player: ${this.getNextPlayer(this.state.stepNumber)}`;
+            status = `Next player: ${nextPlayer}`;
         }
 
         const moves = history.map((step, move) => {
@@ -38,12 +45,13 @@ class Game extends React.Component {
 
         return (
             <div className="game">
-                <div className="game-board">
+                <div className="gameplay-area">
                     <Board squares={current.squares}
                            boardSize={boardSize}
-                           onClick={(i) => this.handleClick(i)}
+                           placeGamepiece={(i, droppedGamepieceValue) => this.placeGamepiece(i, droppedGamepieceValue)}
                            winningLine={winner ? winner.line : []}
                     />
+                    <GamepieceTray players={players} nextPlayer={nextPlayer} />
                 </div>
                 <div className="game-info">
                     <div>{status}</div>
@@ -53,19 +61,19 @@ class Game extends React.Component {
         );
     }
 
-    handleClick(i) {
+    placeGamepiece(i, droppedGamepieceValue) {
         var history = this.state.history.slice(0, this.state.stepNumber + 1);
         var current = history[this.state.stepNumber];
         const squares = current.squares.slice();
         if (this.calculateWinner(squares) || squares[i]) {
             return;
         }
-        const who = this.getNextPlayer(this.state.stepNumber);
-        squares[i] = who
+
+        squares[i] = droppedGamepieceValue
         this.setState({
             history: history.concat([{
                 squares: squares,
-                who: who,
+                who: droppedGamepieceValue,
                 where: i,
             }]),
             stepNumber: history.length
@@ -141,4 +149,4 @@ class Game extends React.Component {
 
 }
 
-export default Game;
+export default DragDropContext(HTML5Backend)(Game);

@@ -1,14 +1,14 @@
 import React from 'react'
+import Gamepiece from './Gamepiece'
 
 function Square(props) {
-    const classes = ['square'];
-    if (props.winningIndex >= 0) {
-        classes.push('partOfWin');
-    }
+    const partOfWin = props.partOfWin ? 'partOfWin' : '';
+    const gamepiece = props.value ? <Gamepiece value={props.value} /> : null;
+
     return (
-        <button className={classes.join(' ')} onClick={() => props.onClick()}>
-            {props.value}
-        </button>
+        <div className={`square ${partOfWin}`}>
+            {gamepiece}
+        </div>
     );
 }
 

@@ -1,29 +1,33 @@
 import React from 'react'
-import Square from './Square'
+import BoardSquare from './BoardSquare'
 
 class Board extends React.Component {
-    renderSquare(row, col) {
-        const i = row * this.props.boardSize + col;
-        return (
-            <Square value={this.props.squares[i]}
-                    key={col}
-                    onClick={() => this.props.onClick(i)}
-                    winningIndex={this.props.winningLine.indexOf(i)}
-            />
-        );
-    }
-
     render() {
+        const { boardSize, squares, winningLine, placeGamepiece } = this.props;
+
         let rows = [];
-        for (let row = 0; row < this.props.boardSize; row++) {
+        for (let row = 0; row < boardSize; row++) {
             let cols = [];
-            for (let col = 0; col < this.props.boardSize; col++) {
-                cols.push(this.renderSquare(row, col));
+            for (let col = 0; col < boardSize; col++) {
+                let i = row * boardSize + col;
+                cols.push(
+                    <BoardSquare
+                        key={i}
+                        i={i}
+                        squares={squares}
+                        placeGamepiece={(droppedGamepieceValue) => placeGamepiece(i, droppedGamepieceValue)}
+                        winningLine={winningLine}
+                    />
+                );
             }
             rows.push(<div key={row} className="board-row">{cols}</div>)
         }
 
-        return <div>{rows}</div>;
+        return (
+            <div className="game-board">
+                {rows}
+            </div>
+        );
     }
 }
 
