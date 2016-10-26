@@ -7,6 +7,17 @@ ol, ul {
     padding-left: 2em;
 }
 
+.game h1 {
+    font-size: 4em;
+    margin-top: 0.25em;
+}
+
+.game {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .gameplay-area {
     display: flex;
     flex-direction: column;
@@ -101,11 +112,6 @@ ol, ul {
     background: #ddd;
 }
 
-.game {
-    display: flex;
-    flex-direction: row;
-}
-
 .status {
     margin-bottom: 10px;
 }
@@ -133,6 +139,6 @@ ol, ul {
 
 .game-info {
     font-size: 36px;
+    margin-top: 4em;
     margin-left: 20px;
-    flex-basis: 16em;
 }

@@ -46,6 +46,7 @@ class Game extends React.Component {
         return (
             <div className="game">
                 <div className="gameplay-area">
+                    <h1>Tic-Tac-Toe</h1>
                     <Board squares={current.squares}
                            boardSize={boardSize}
                            placeGamepiece={(i, droppedGamepieceValue) => this.placeGamepiece(i, droppedGamepieceValue)}
