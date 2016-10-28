@@ -4,8 +4,8 @@
   "description": "A ReactJS tutorial application",
   "main": "gulpfile.js",
   "scripts": {
-    "clean": "rm -rf dist/ && mkdir dist",
-    "copy-static-resources": "cp -r app/ dist/",
+    "clean": "rm -rf public/ && mkdir public",
+    "copy-static-resources": "cp -r app/ public/",
     "prebuild": "npm run clean",
     "build": "webpack && npm run copy-static-resources",
     "start": "./run-browsersync-proxy.js"

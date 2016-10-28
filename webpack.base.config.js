@@ -8,7 +8,7 @@ module.exports = new Config().merge({
     },
 
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.join(__dirname, 'public'),
         publicPath: '/',
         filename: '[name].js'
     },
