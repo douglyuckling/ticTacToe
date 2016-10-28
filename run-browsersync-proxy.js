@@ -6,7 +6,7 @@ var webpack              = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var stripAnsi            = require('strip-ansi');
 
-var webpackConfig = require('./webpack.config');
+var webpackConfig = require('./webpack.dev.config');
 var bundler       = webpack(webpackConfig);
 
 bundler.plugin('done', function(stats) {

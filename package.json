@@ -4,6 +4,10 @@
   "description": "A ReactJS tutorial application",
   "main": "gulpfile.js",
   "scripts": {
+    "clean": "rm -rf dist/ && mkdir dist",
+    "copy-static-resources": "cp -r app/ dist/",
+    "prebuild": "npm run clean",
+    "build": "webpack && npm run copy-static-resources",
     "start": "./run-browsersync-proxy.js"
   },
   "author": "Douglas W. Paul",
@@ -25,6 +29,7 @@
     "bs-fullscreen-message": "^1.1.0",
     "strip-ansi": "^3.0.1",
     "webpack": "^1.13.2",
+    "webpack-config": "^6.2.0",
     "webpack-dev-middleware": "^1.8.4"
   }
 }
