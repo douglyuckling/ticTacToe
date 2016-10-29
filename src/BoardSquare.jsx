@@ -1,6 +1,6 @@
 import React from 'react';
 import Square from './Square';
-import { DRAG_TYPE as GAMEPIECE_DRAG_TYPE } from './Gamepiece';
+import { DRAG_TYPE as GAMEPIECE_DRAG_TYPE } from './DraggableGamepiece';
 import { DropTarget } from 'react-dnd';
 
 const squareTarget = {

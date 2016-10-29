@@ -1,11 +1,11 @@
 import React from 'react'
-import Gamepiece from './Gamepiece'
+import DraggableGamepiece from './DraggableGamepiece'
 
 function GamepieceTray(props) {
     const gamepieces = props.players.map(player => {
         const draggable = player === props.nextPlayer;
         return (
-            <Gamepiece key={player} value={player} draggable={draggable} />
+            <DraggableGamepiece key={player} value={player} draggable={draggable} />
         );
     });
 

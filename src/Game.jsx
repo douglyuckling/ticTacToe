@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
+import { default as TouchBackend } from 'react-dnd-touch-backend';
 import Board from './Board'
-import Gamepiece from './Gamepiece'
 import GamepieceTray from './GamepieceTray'
+import CustomDragLayer from './CustomDragLayer'
 
 const players = ['X', 'O'];
 const boardSize = 3
@@ -45,6 +45,7 @@ class Game extends React.Component {
 
         return (
             <div className="game">
+                <CustomDragLayer />
                 <div className="gameplay-area">
                     <h1>Tic-Tac-Toe</h1>
                     <Board squares={current.squares}
@@ -150,4 +151,4 @@ class Game extends React.Component {
 
 }
 
-export default DragDropContext(HTML5Backend)(Game);
+export default DragDropContext(TouchBackend({ enableMouseEvents: true }))(Game);
